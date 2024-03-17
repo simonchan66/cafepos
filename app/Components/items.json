@@ -1,0 +1,91 @@
+
+
+{ "products": [
+    {
+        "item_id": {
+          "id": 1,
+          "item_name": "Espresso",
+          "price": 2.5,
+          "category": "Coffee",
+          "description": "Concentrated coffee shot",
+          "active": true,
+          "image": "https://cdn.pixabay.com/photo/2019/01/13/11/54/espresso-3930170_1280.jpg"
+        }
+      }
+      ,
+      {
+        "item_id": {
+          "id": 2,
+          "item_name": "Cappuccino",
+          "price": 3.5,
+          "category": "Coffee",
+          "description": "Espresso with equal parts steamed milk and foam",
+          "active": true,
+          "image": "https://cdn.pixabay.com/photo/2016/11/29/02/10/caffeine-1866758_1280.jpg"
+        }
+      }
+      ,
+      {
+        "item_id": {
+          "id": 3,
+          "item_name": "Latte",
+          "price": 3.75,
+          "category": "Coffee",
+          "description": "Espresso with steamed milk",
+          "active": true,
+          "image": "https://cdn.pixabay.com/photo/2016/08/03/05/33/latte-1565931_960_720.jpg"
+        }
+      }
+      ,
+      {
+        "item_id": {
+          "id": 4,
+          "item_name": "Americano",
+          "price": 2.75,
+          "category": "Coffee",
+          "description": "Espresso diluted with hot water",
+          "active": true,
+          "image": "https://cdn.pixabay.com/photo/2015/05/31/10/54/coffee-791045_1280.jpg"
+        }
+      }
+      ,
+      {
+        "item_id": {
+          "id": 5,
+          "item_name": "Mocha",
+          "price": 4,
+          "category": "Coffee",
+          "description": "Espresso with chocolate and steamed milk",
+          "active": true,
+          "image": "https://cdn.pixabay.com/photo/2016/02/23/08/38/coffee-1217118_1280.jpg"
+        }
+      }
+      ,
+      {
+        "item_id": {
+          "id": 6,
+          "item_name": "Flat White",
+          "price": 3.5,
+          "category": "Coffee",
+          "description": "Espresso with steamed milk and less foam",
+          "active": true,
+          "image": "https://cdn.pixabay.com/photo/2019/03/01/06/43/cafe-4027396_960_720.jpg"
+        }
+      }
+      ,
+      {
+        "item_id": {
+          "id": 7,
+          "item_name": "Iced Latte",
+          "price": 4,
+          "category": "Coffee",
+          "description": "Espresso with milk, served over ice",
+          "active": true,
+          "image": "https://cdn.pixabay.com/photo/2020/03/31/17/42/ice-coffee-4988704_960_720.jpg"
+        }
+      }
+
+
+]}
+
+
