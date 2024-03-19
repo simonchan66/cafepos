@@ -1,16 +1,21 @@
+import Link from 'next/link';
+
 const Navigation = () => {
-    return (
-      <nav>
-        {/* Add navigation menu items */}
-        <ul>
-          <li>HOME</li>
-          <li>ORDER</li>
-          <li>DRINKS</li>
-          <li>FOOD</li>
-          <li>STATS</li>
-        </ul>
-      </nav>
-    );
-  };
-  
-  export default Navigation;
+  return (
+    <nav>
+      <ul>
+        <li>
+          <Link href="/">HOME</Link>
+        </li>
+        <li>
+          <Link href="/OrderPage">ORDER</Link>
+        </li>
+        <li>
+          <Link href="/AllStatsPage">STATS</Link>
+        </li>
+      </ul>
+    </nav>
+  );
+};
+
+export default Navigation;
