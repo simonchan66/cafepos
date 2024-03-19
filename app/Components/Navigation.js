@@ -5,6 +5,8 @@ const Navigation = () => {
         <ul>
           <li>HOME</li>
           <li>ORDER</li>
+          <li>DRINKS</li>
+          <li>FOOD</li>
           <li>STATS</li>
         </ul>
       </nav>
