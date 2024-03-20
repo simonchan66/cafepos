@@ -28,7 +28,6 @@ getDocs(colRef).then((snapshot) => {
     snapshot.forEach((doc) => {
         products.push({...doc.data(), id:doc.id});
     })
-    console.log(products);
     });
 // Initialize Firebase
 

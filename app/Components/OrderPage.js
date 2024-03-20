@@ -2,14 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore';
 
+import { useUserAuth } from "../_utils/auth-context";
+
 const OrderPage = () => {
+  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
+  
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [checkoutClicked, setCheckoutClicked] = useState(false);
   const [cashAmount, setCashAmount] = useState(0);
   const [voucherAmount, setVoucherAmount] = useState(0);
-  const [userName, setUserName] = useState('SimonC'); // Replace with the actual user's name
+  const [userName, setUserName] = useState('');
 
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -21,7 +25,19 @@ const OrderPage = () => {
     return () => clearInterval(interval); // Clean up the interval on component unmount
   }, []);
 
-
+  // Get authenticated user's name
+  useEffect(() => {
+    if (user) {
+      setUserName(user.email);
+      console.log('User:', user.email);
+      // Persist user data in localStorage
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      setUserName('');
+      // Clear user data from localStorage
+      localStorage.removeItem('user');
+    }
+}, [user]);
 
   useEffect(() => {
     const fetchProducts = async () => {
