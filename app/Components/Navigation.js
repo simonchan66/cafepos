@@ -13,6 +13,9 @@ const Navigation = () => {
         <li>
           <Link href="/AllStatsPage">STATS</Link>
         </li>
+        <li>
+          <Link href="/EditProduct">EDIT</Link>
+        </li>
       </ul>
     </nav>
   );
