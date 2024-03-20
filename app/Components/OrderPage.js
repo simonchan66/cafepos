@@ -183,8 +183,8 @@ const OrderPage = () => {
                         <td>{cartProduct.price}</td>
                         <td>{cartProduct.quantity}</td>
                         <td>
-                          <button onClick={() => removeProduct(cartProduct)}>
-                            Remove
+                          <button className="remove-btn" onClick={() => removeProduct(cartProduct)}>
+                            X
                           </button>
                         </td>
                       </tr>
@@ -239,6 +239,7 @@ const OrderPage = () => {
                 />
               </div>
             </div>
+
             {/* Buttons */}
             <div className="flex justify-end">
               <button
@@ -247,14 +248,26 @@ const OrderPage = () => {
               >
                 Cancel
               </button>
-              <button
-                onClick={handleConfirmPayment}
-                className="checkout-btn text-white px-4 py-2 rounded-md transition-colors duration-300"
-                disabled={cashAmount + voucherAmount < totalAmount}
-              >
-                Confirm Payment
-              </button>
+<button
+  onClick={handleConfirmPayment}
+  className="checkout-btn text-white px-4 py-2 rounded-md transition-colors duration-300"
+  disabled={cashAmount + voucherAmount !== totalAmount}
+>
+  Confirm Payment
+</button>
             </div>
+
+
+            <div>
+            {cashAmount + voucherAmount !== totalAmount && (
+  <p className="text-red-500 mb-4">
+    Error: Total Amount
+  </p>
+)}
+
+            </div>
+
+
           </div>
         )}
       </div>

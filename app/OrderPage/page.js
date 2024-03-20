@@ -1,16 +1,9 @@
-import Navigation from '../Components/Navigation';
-import OrderPage from '../Components/OrderPage';
+import Home from "../Home/page";
 
 const RealOrderPage = () => {
   return (
-    <div className="container">
-      <div className="navigation">
-        <Navigation />
-      </div>
-      <div className="content">
-        <OrderPage />
-      </div>
-    </div>
+
+        <Home />
   );
 };
 

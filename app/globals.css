@@ -185,3 +185,7 @@ button {
 button.checkout-btn {
   background-color: #D1925A;
 }
+
+button.remove-btn {
+  background-color:red;
+}
