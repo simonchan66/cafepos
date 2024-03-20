@@ -11,6 +11,18 @@ const OrderPage = () => {
   const [voucherAmount, setVoucherAmount] = useState(0);
   const [userName, setUserName] = useState('SimonC'); // Replace with the actual user's name
 
+
+  const [currentDate, setCurrentDate] = useState(new Date());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 1000); // Update the date every second
+
+    return () => clearInterval(interval); // Clean up the interval on component unmount
+  }, []);
+
+
+
   useEffect(() => {
     const fetchProducts = async () => {
       const db = getFirestore();
@@ -36,6 +48,29 @@ const OrderPage = () => {
     const newCart = cart.filter((cartItem) => cartItem.id !== product.id);
     setCart(newCart);
   };
+
+  // Increase or decrease product quantity
+  const updateProductQuantity = (product, action) => {
+    const newCart = [...cart];
+    const productIndex = newCart.findIndex((item) => item.id === product.id);
+
+    if (productIndex !== -1) {
+      if (action === 'increase') {
+        newCart[productIndex].quantity += 1;
+        newCart[productIndex].totalAmount += product.price;
+      } else if (action === 'decrease') {
+        if (newCart[productIndex].quantity > 1) {
+          newCart[productIndex].quantity -= 1;
+          newCart[productIndex].totalAmount -= product.price;
+        } else {
+          newCart.splice(productIndex, 1);
+        }
+      }
+    }
+
+    setCart(newCart);
+  };
+
 
   useEffect(() => {
     // Calculate new total amount
@@ -91,7 +126,7 @@ const OrderPage = () => {
   const handleConfirmPayment = async () => {
     const totalPayment = cashAmount + voucherAmount;
     if (totalPayment >= totalAmount) {
-      // Create a new transaction document
+      // Create a new transaction document for firestore
       const transaction_time = new Date();
       const order_id = `${transaction_time.getSeconds()}${transaction_time.getMinutes()}${transaction_time.getHours()}${transaction_time.getMonth() + 1}${transaction_time.getDate()}${transaction_time.getFullYear()}`;
 
@@ -145,7 +180,7 @@ const OrderPage = () => {
     <div className="order-page">
       <header>
         <h1>Connexion Cafe</h1>
-        <p>Tuesday, 12 Mar 2024</p>
+        <p>{currentDate.toLocaleString()}</p>
       </header>
 
       <div className="order-content">
@@ -183,6 +218,9 @@ const OrderPage = () => {
                         <td>{cartProduct.price}</td>
                         <td>{cartProduct.quantity}</td>
                         <td>
+                        <button className="adj-btn" onClick={() => updateProductQuantity(cartProduct, 'decrease')}>-</button>
+                          <button className="adj-btn" onClick={() => updateProductQuantity(cartProduct, 'increase')}>+</button>
+                        
                           <button className="remove-btn" onClick={() => removeProduct(cartProduct)}>
                             X
                           </button>
@@ -211,7 +249,6 @@ const OrderPage = () => {
           <div className="payment-section bg-gray-800 p-6 rounded-lg text-white max-w-md mx-auto">
             <h2 className="text-xl font-semibold mb-4">Payment</h2>
             <div>
-              {/* Payment details */}
               <p className="mb-2">Payment Details:</p>
               <p className="mb-2">Total Amount: ${totalAmount.toFixed(2)}</p>
               <div className="mb-4">

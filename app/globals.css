@@ -188,4 +188,11 @@ button.checkout-btn {
 
 button.remove-btn {
   background-color:red;
+margin: 0 4px;
+}
+
+
+button.adj-btn {
+  background-color: #D1925A;
+  margin: 0 4px;
 }
