@@ -1,5 +1,5 @@
 import Navigation from '../Components/Navigation';
-import AccountManagementPage from '../Components/AccountPage';
+import AccountPage from '../Components/AccountPage';
 
 const AllStatsPage = () => {
   return (
@@ -8,7 +8,7 @@ const AllStatsPage = () => {
         <Navigation />
       </div>
       <div className="content">
-        <AccountManagementPage />
+        <AccountPage />
       </div>
     </div>
   );
