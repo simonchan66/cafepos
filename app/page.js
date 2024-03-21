@@ -1,12 +1,26 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 import { useUserAuth } from "./_utils/auth-context";
 
 export default function Page() {
-  const { user, gitHubSignIn, firebaseSignOut } = useUserAuth();
+  const { user, gitHubSignIn, firebaseSignOut, signInWithEmailAndPassword } = useUserAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleSignIn() {
     gitHubSignIn()
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.error("Sign in failed", error);
+      });
+  }
+
+  function handleEmailSignIn(e) {
+    e.preventDefault();
+    signInWithEmailAndPassword(email, password)
       .then((result) => {
         console.log(result);
       })
@@ -28,16 +42,55 @@ export default function Page() {
   return (
     <main className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4">
       <div className="bg-gray-800 shadow-md rounded-lg p-8 max-w-md w-full">
-        <h1 className="text-3xl font-bold text-center text-white mb-8">
+        <h1 className="text-2xl font-bold text-center text-white mb-8">
           Welcome to Connexion Cafe
         </h1>
         {!user && (
-          <button
-            onClick={handleSignIn}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full transition duration-300 ease-in-out"
-          >
-            Sign In with GitHub
-          </button>
+          <>
+            <form onSubmit={handleEmailSignIn} className="mb-6">
+              <div className="mb-4">
+                <label htmlFor="email" className="block text-white font-semibold mb-2">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <div className="mb-6">
+                <label htmlFor="password" className="block text-white font-semibold mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full w-full transition duration-300 ease-in-out"
+              >
+                Sign In
+              </button>
+            </form>
+            <div className="text-center">
+              <span className="text-gray-400">or</span>
+            </div>
+            <button
+              onClick={handleSignIn}
+              className="mt-6 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-full w-full transition duration-300 ease-in-out"
+            >
+              Sign In with GitHub
+            </button>
+          </>
         )}
         {user && (
           <>
@@ -64,4 +117,4 @@ export default function Page() {
       </div>
     </main>
   );
-}
+} 

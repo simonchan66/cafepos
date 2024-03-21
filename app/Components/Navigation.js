@@ -16,6 +16,9 @@ const Navigation = () => {
         <li>
           <Link href="/EditProduct">EDIT</Link>
         </li>
+        <li>
+          {/* <Link href="/Account">ACCOUNT</Link> */}
+        </li>
       </ul>
     </nav>
   );

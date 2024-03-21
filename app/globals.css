@@ -39,7 +39,7 @@ body {
 
 .order-page {
   flex: 0 0 92%; /* Grow to occupy the remaining space */
-  padding: 20px;
+  padding: 8px;
   background-color: #252836;
   color: #fff;
   /* ... other styles ... */

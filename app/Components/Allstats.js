@@ -1,12 +1,16 @@
+
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { getFirestore, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, deleteDoc, doc, query, where } from 'firebase/firestore';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Allstats = () => {
   const [orders, setOrders] = useState([]);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -14,8 +18,24 @@ const Allstats = () => {
       const ordersRef = collection(db, 'transactions');
 
       try {
-        const snapshot = await getDocs(ordersRef);
-        const ordersData = snapshot.docs.map((doc) => ({
+        let querySnapshot;
+        if (selectedDate) {
+          const startOfDay = new Date(selectedDate);
+          startOfDay.setHours(0, 0, 0, 0);
+          const endOfDay = new Date(selectedDate);
+          endOfDay.setHours(23, 59, 59, 999);
+        
+          const startOfDayISO = startOfDay.toISOString();
+          const endOfDayISO = endOfDay.toISOString();
+        
+          querySnapshot = await getDocs(
+            query(ordersRef, where('transaction_time', '>=', startOfDayISO), where('transaction_time', '<=', endOfDayISO))
+          );
+        } else {
+          querySnapshot = await getDocs(ordersRef);
+        }
+
+        const ordersData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
@@ -26,7 +46,7 @@ const Allstats = () => {
     };
 
     fetchOrders();
-  }, []);
+  }, [selectedDate]);
 
   const handleShowOrderDetails = (order) => {
     setSelectedOrder(order);
@@ -54,10 +74,23 @@ const Allstats = () => {
   };
 
   return (
-    <div className="orders-page">
-      <header className="bg-gray-800 text-white py-4 px-6">
-        <h1 className="text-xl font-semibold">Orders</h1>
-      </header>
+    <div className="order-page">
+  <header className="bg-gray-800 text-white py-4 px-6 flex justify-between items-center top-0 z-10">
+    <h1 className="text-xl font-semibold">Orders</h1>
+    <div className="items-center">
+      <label htmlFor="datePicker" className="text-sm font-medium text-white mr-2">
+        Select Date:
+      </label>
+      <DatePicker
+        id="datePicker"
+        selected={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        dateFormat="yyyy-MM-dd"
+        placeholderText="Select a date"
+        className="py-1 px-2 border text-black border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+      />
+    </div>
+  </header>
       <div className="orders-container p-6">
         {orders.length > 0 ? (
           <div className="overflow-x-auto">
@@ -67,6 +100,7 @@ const Allstats = () => {
                   <th className="px-4 py-2">Order ID</th>
                   <th className="px-4 py-2">User</th>
                   <th className="px-4 py-2">Date</th>
+                  <th className="px-4 py-2">Time</th>
                   <th className="px-4 py-2">Total Amount</th>
                   <th className="px-4 py-2">Actions</th>
                 </tr>
@@ -81,6 +115,7 @@ const Allstats = () => {
                     <td className="px-4 py-2 text-white">{order.order_id}</td>
                     <td className="px-4 py-2 text-white">{order.user_name}</td>
                     <td className="px-4 py-2 text-white">{new Date(order.transaction_time).toLocaleDateString()}</td>
+                    <td className="px-4 py-2 text-white">{new Date(order.transaction_time).toLocaleTimeString()}</td>
                     <td className="px-4 py-2 text-white">${order.total_amount.toFixed(2)}</td>
                     <td className="px-4 py-2 text-white">
                       <button
